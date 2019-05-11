@@ -1,7 +1,8 @@
 /**
  * Physics Experiment
- * Author: Your Name and Carolyn Yao
- * Does this compile or finish running within 5 seconds? Y/N
+ * Author: Stacy Murray and Carolyn Yao
+ * In collaboration with Polina Chernomaz
+ * Does this compile or finish running within 5 seconds? Y
  */
 
 /**
@@ -11,7 +12,7 @@
  * solution.
  *
  * You will only be graded on code you add to the scheduleExperiments method.
- * Do not mess with the existing formatting and identation.
+ * Do not mess with the existing formatting and indentation.
  * You don't need to use the helper methods, but if they come in handy setting
  * up a custom test case, feel free to use them.
  */
@@ -37,10 +38,55 @@ public class PhysicsExperiment {
     // in the table in the right places based on the return description
     int[][] scheduleTable = new int[numStudents + 1][numSteps + 1];
 
-    // Your code goes here
+    // Your code goes here	
+    //keep track of the current step 
+    int currentStep = 0;
 
-    return scheduleTable;
+    //while there are still steps that need to be assigned , find a student willing to complete the step
+    while(currentStep != numSteps)
+    {
+    	//intialize values to keep track of the most consecutive steps and the student that will complete them 
+    	int maxConsecutiveSteps = 0;
+    	int maxConsecStudent = 0;
+    	
+    	// start with the first student 
+    	for(int row = 1;row <= numStudents; row++)
+    	{
+			int column = currentStep ;
+			int consecutiveSteps = 0;
+			// if the student is signed up  to do the step , increase the number of consecutive steps and 
+			//increase the column to check if they are also qualified to complete the next step
+			while(column+1 <= numSteps && signUpTable[row][column + 1] == 1)
+			{
+				consecutiveSteps++;
+				column++;
+
+			}
+			
+			// if the current number of consecutiveSteps is greater than the maxConsecutive steps , update maxConsecutive
+			// steps to the greater value 
+			if(maxConsecutiveSteps < consecutiveSteps)
+			{
+				maxConsecutiveSteps = consecutiveSteps;
+				maxConsecStudent = row;
+			}
+    	}
+
+    	// populate the scheduleTable with the student(s) who can complete the most consecutive steps
+    	for(int i = 0; i < maxConsecutiveSteps; i++)
+    	{
+    		scheduleTable[maxConsecStudent][currentStep+1] = 1;
+    		currentStep++;
+    	}
+
+
+    }
+	
+	return scheduleTable;
+	
   }
+
+
 
   /**
    * Makes the convenient lookup table based on the steps each student says they can do
